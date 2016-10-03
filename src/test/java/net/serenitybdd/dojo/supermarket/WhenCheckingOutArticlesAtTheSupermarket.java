@@ -23,4 +23,21 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
         assertThat(receipt.getTotalPrice(), equalTo(0.00));
 
     }
+
+    @Test
+    public void a_shopping_cart_should_cost_the_sum_of_prices_of_its_contents() throws Exception {
+        // GIVEN
+        SupermarketCatalog catalog = new DummyCatalog();
+        Teller teller = new Teller(catalog);
+        ShoppingCart theCart = new ShoppingCart();
+        theCart.add(catalog.productWithName("1kg of Rice"));
+
+        // WHEN
+
+        Receipt receipt = teller.checksOutArticlesFrom(theCart);
+
+        // THEN
+        assertThat(receipt.getTotalPrice(), equalTo(2.45));
+
+    }
 }
