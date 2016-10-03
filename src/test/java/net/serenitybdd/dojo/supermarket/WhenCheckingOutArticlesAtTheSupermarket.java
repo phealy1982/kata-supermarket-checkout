@@ -28,9 +28,10 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
     public void a_shopping_cart_should_cost_the_sum_of_prices_of_its_contents() throws Exception {
         // GIVEN
         SupermarketCatalog catalog = new DummyCatalog();
+        catalog.add(Product.withName("1kg of Rice").andWithPrice(2.45));
         Teller teller = new Teller(catalog);
         ShoppingCart theCart = new ShoppingCart();
-        theCart.add(catalog.productWithName("1kg of Rice"));
+        theCart.addItem(catalog.productWithName("1kg of Rice"));
 
         // WHEN
 

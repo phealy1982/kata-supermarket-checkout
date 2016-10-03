@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface SupermarketCatalog {
 
-    static abstract Product productWithName(String name);
+    void add(Product product);
 
-    void addProduct(Product product);
+    List<Product> productList();
 
-    List<Product> listProducts();
+    Product productWithName(String name);
 }

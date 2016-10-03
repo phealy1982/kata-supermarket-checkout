@@ -1,7 +1,24 @@
 package net.serenitybdd.dojo.supermarket.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Receipt {
+    private List<Product> items = new ArrayList<>();
+
     public Double getTotalPrice() {
-        return 0.00;
+        Double totalPrice=0.00;
+        for(Product item : items){
+            totalPrice += item.price();
+        }
+        return totalPrice;
+    }
+
+    public void addItem(Product product) {
+        items.add(product);
+    }
+
+    public List<Product> items() {
+        return items;
     }
 }
