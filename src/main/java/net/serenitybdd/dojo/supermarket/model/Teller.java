@@ -12,7 +12,7 @@ public class Teller {
 
         Receipt receipt = new Receipt();
         for(Product item : theCart.getItems()){
-            receipt.addItem(item);
+            receipt.addItem(item, catalog.priceFor(theCart.numberOf(item), item));
         }
         return receipt;
     }

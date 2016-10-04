@@ -1,23 +1,38 @@
 package net.serenitybdd.dojo.supermarket.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SupermarketCatalog {
 
-    private static final Map<Barcode, Product> PRODUCTS = new HashMap<>();
+    private static final Map<Barcode, Double> PRODUCTS = new HashMap<>();
+    private static final Map<Product, SpecialOffer> OFFERS = new HashMap<>();
 
-    public void add(Product product) {
-        PRODUCTS.put(product.barcode(), product);
+    public Double priceFor(int quantity, Product product) {
+
+        if (OFFERS.get(product) == SpecialOffer.TWO_FOR_ONE){
+            return applyTwoForOneOffer(quantity, product);
+        }
+
+        return PRODUCTS.get(product.barcode()) * quantity;
     }
 
-    public List<Product> productList() {
-        return new ArrayList<>(PRODUCTS.values());
+    private Double applyTwoForOneOffer(int quantity, Product product) {
+
+        int quantityToPrice = quantity % 2;
+
+        return PRODUCTS.get(product.barcode()) * quantityToPrice;
     }
 
-    public Double priceFor(int quantity, Barcode barcode) {
-        return 0.0 * quantity;
+    public void addWithPrice(Product product, Double price) {
+        PRODUCTS.put(product.barcode(), price);
+    }
+
+    public void addSpecialOffer(Product product, SpecialOffer offer) {
+        OFFERS.put(product, offer);
+    }
+
+    public SpecialOffer specialOfferFor(Product product) {
+        return OFFERS.get(product);
     }
 }

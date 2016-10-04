@@ -10,13 +10,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ReceiptTest {
 
 
+    private static final Double PRICE_OF_RICE = 1.23;
+
     @Test public void should_be_able_add_item_to_receipt() throws Exception {
 
         Receipt receipt = new Receipt();
 
         Product riceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
-        receipt.addItem(riceProduct);
+        receipt.addItem(riceProduct, PRICE_OF_RICE);
 
         assertThat(receipt.items()).contains(riceProduct);
 
@@ -30,10 +32,10 @@ public class ReceiptTest {
 
         Product anotherRiceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
-        receipt.addItem(riceProduct);
-        receipt.addItem(anotherRiceProduct);
+        receipt.addItem(riceProduct, PRICE_OF_RICE);
+        receipt.addItem(anotherRiceProduct, PRICE_OF_RICE);
 
-        assertThat(receipt.getTotalPrice()).isEqualTo(4.90);
+        assertThat(receipt.getTotalPrice()).isEqualTo(PRICE_OF_RICE * 2);
 
     }
 }

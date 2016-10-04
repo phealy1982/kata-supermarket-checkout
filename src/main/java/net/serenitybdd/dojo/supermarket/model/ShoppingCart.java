@@ -19,6 +19,18 @@ public class ShoppingCart {
         return new ShoppingCartAdder(this, product);
     }
 
+    public int numberOfItems() {
+        return items.size();
+    }
+
+    public int numberOf(Product product) {
+        int productCounter=0;
+        for(Product item : items){
+            if(item.barcode().equals(product.barcode())) productCounter++;
+        }
+        return productCounter;
+    }
+
     public class ShoppingCartAdder {
         private final ShoppingCart shoppingCart;
         private final Product product;

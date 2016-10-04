@@ -34,7 +34,6 @@ public class Product {
 
     public static class ProductBuilder {
         private String name;
-        private Double price;
         private Barcode barcode;
 
         public ProductBuilder(String name) {
@@ -43,6 +42,11 @@ public class Product {
 
         public Product andWithBarcode(Barcode barcode) {
             this.barcode = barcode;
+            return new Product(this.name, this.barcode);
+        }
+
+        public Product andWithBarcode(String barcodeValue) {
+            this.barcode = new Barcode(barcodeValue);
             return new Product(this.name, this.barcode);
         }
     }
