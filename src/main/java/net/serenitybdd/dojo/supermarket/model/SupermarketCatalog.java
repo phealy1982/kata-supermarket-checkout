@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class SupermarketCatalog {
 
-    private static final Map<String, Product> PRODUCTS = new HashMap<>();
+    private static final Map<Barcode, Product> PRODUCTS = new HashMap<>();
 
      public void add(Product product) {
-        PRODUCTS.put(product.name(), product);
+        PRODUCTS.put(product.barcode(), product);
     }
 
      public List<Product> productList() {
@@ -21,7 +21,7 @@ public class SupermarketCatalog {
         return PRODUCTS.get(name);
     }
 
-    public Double priceFor(int quantity, Product product) {
-        return product.price() * quantity;
+    public Double priceFor(int quantity, Barcode barcode) {
+        return PRODUCTS.get(barcode).price()  * quantity;
     }
 }

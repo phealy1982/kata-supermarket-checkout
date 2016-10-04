@@ -9,9 +9,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class WhenCheckingOutArticlesAtTheSupermarket {
 
-    public static final Product RICE = Product.withName("1kg of Rice").andWithPrice(2.45);
-    public static final Product TOOTHBRUSH = Product.withName("toothbrush").andWithPrice(3.45);
-    public static final Product ORANGES = Product.withName("1kg of Oranges").andWithPrice(1.80);
+    public static final Product RICE = Product.withName("1kg of Rice").andBarcode(new Barcode("123")).andWithPrice(2.45);
+    public static final Product TOOTHBRUSH = Product.withName("toothbrush").andBarcode(new Barcode("456")).andWithPrice(3.45);
 
     @Test
     public void an_empty_shopping_cart_should_cost_nothing() {

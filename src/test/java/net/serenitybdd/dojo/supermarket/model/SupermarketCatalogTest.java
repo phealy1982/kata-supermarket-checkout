@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class SupermarketCatalogTest {
 
-
     public static final Product RICE = Product.withName("1kg of Rice").andWithPrice(2.45);
 
     @Test public void should_be_able_to_add_a_product() throws Exception {
@@ -18,22 +17,12 @@ public class SupermarketCatalogTest {
         supermarketCatalog.add(RICE);
 
         assertThat(supermarketCatalog.productList()).contains(RICE);
-
     }
 
     @Test
-    public void should_be_able_to_retrieve_product_details_by_name() throws Exception {
-        SupermarketCatalog supermarketCatalog  = new SupermarketCatalog();
-        supermarketCatalog.add(RICE);
-
-        assertThat(supermarketCatalog.productWithName("1kg of Rice").name()).isEqualTo("1kg of Rice");
-    }
-
-    @Test
-    public void should_know_price_of_product() throws Exception {
+    public void should_be_able_to_retrieve_product_price_based_on_barcode() throws Exception {
         SupermarketCatalog supermarketCatalog = catalogWithProducts(RICE);
-        assertThat(supermarketCatalog.priceFor(2, RICE)).isEqualTo(RICE.price() * 2);
-
+        assertThat(supermarketCatalog.priceFor(1, RICE.barcode())).isEqualTo(RICE.price());
     }
 
     private static SupermarketCatalog catalogWithProducts(Product ... products) {
