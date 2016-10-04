@@ -14,7 +14,7 @@ public class ReceiptTest {
 
         Receipt receipt = new Receipt();
 
-        Product riceProduct = Product.withName("1kg of Rice").andWithPrice(2.45);
+        Product riceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
         receipt.addItem(riceProduct);
 
@@ -26,9 +26,9 @@ public class ReceiptTest {
 
         Receipt receipt = new Receipt();
 
-        Product riceProduct = Product.withName("1kg of Rice").andWithPrice(2.45);
+        Product riceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
-        Product anotherRiceProduct = Product.withName("1kg of Rice").andWithPrice(2.45);
+        Product anotherRiceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
         receipt.addItem(riceProduct);
         receipt.addItem(anotherRiceProduct);

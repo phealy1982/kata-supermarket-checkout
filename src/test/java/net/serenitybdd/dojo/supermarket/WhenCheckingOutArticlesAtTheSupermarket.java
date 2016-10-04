@@ -9,8 +9,9 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class WhenCheckingOutArticlesAtTheSupermarket {
 
-    public static final Product RICE = Product.withName("1kg of Rice").andBarcode(new Barcode("123")).andWithPrice(2.45);
-    public static final Product TOOTHBRUSH = Product.withName("toothbrush").andBarcode(new Barcode("456")).andWithPrice(3.45);
+    public static final Product RICE = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
+    public static final Product TOOTHBRUSH = Product.withName("toothbrush").andWithBarcode(new Barcode("456"));
+    private static final Double PRICE_OF_TOOTHBRUSH = 1.33;
 
     @Test
     public void an_empty_shopping_cart_should_cost_nothing() {
@@ -58,14 +59,14 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
     }
 
     @Test
-    public void should_apply_special_toothbrush_offer_buy_two_get_one_free() throws Exception {
+    public void should_apply_special_offer_buy_two_get_one_free() throws Exception {
         Teller teller = new Teller(catalogWithProducts(TOOTHBRUSH));
         ShoppingCart theCart = new ShoppingCart();
         theCart.add(TOOTHBRUSH).times(2);
 
         Receipt receipt = teller.checksOutArticlesFrom(theCart);
 
-        assertThat(receipt.getTotalPrice(), equalTo(TOOTHBRUSH.price()));
+        assertThat(receipt.getTotalPrice(), equalTo(PRICE_OF_TOOTHBRUSH));
 
     }
 

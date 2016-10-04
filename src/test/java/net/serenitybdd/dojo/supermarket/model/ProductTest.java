@@ -10,12 +10,11 @@ import static org.assertj.core.api.StrictAssertions.assertThat;
 public class ProductTest {
 
     @Test
-    public void should_have_a_name_a_barcode_and_a_price() throws Exception {
+    public void should_have_a_name_and_a_barcode() throws Exception {
 
-        Product aProduct = Product.withName("1kg of Rice").andBarcode(new Barcode("123")).andWithPrice(2.45);
+        Product aProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
 
         assertThat(aProduct.name()).isEqualTo("1kg of Rice");
-        assertThat(aProduct.price()).isEqualTo(2.45);
         assertThat(aProduct.barcode().value()).isEqualTo("123");
 
     }

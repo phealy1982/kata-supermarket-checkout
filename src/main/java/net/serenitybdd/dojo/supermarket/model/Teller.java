@@ -5,7 +5,6 @@ public class Teller {
     private final SupermarketCatalog catalog;
 
     public Teller(SupermarketCatalog catalog) {
-
         this.catalog = catalog;
     }
 

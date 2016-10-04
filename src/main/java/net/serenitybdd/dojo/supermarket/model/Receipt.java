@@ -9,7 +9,7 @@ public class Receipt {
     public Double getTotalPrice() {
         Double totalPrice=0.00;
         for(Product item : items){
-            totalPrice += item.price();
+            totalPrice += 0;
         }
         return totalPrice;
     }
