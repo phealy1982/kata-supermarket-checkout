@@ -20,7 +20,7 @@ public class SupermarketCatalog {
     }
 
     private boolean productOnSpecialOffer(Product product) {
-        return OFFERS.get(product) == SpecialOffer.TWO_FOR_ONE;
+        return OFFERS.containsKey(product);
     }
 
     private Double priceFor(Product product) {
