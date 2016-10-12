@@ -28,4 +28,15 @@ public class ShoppingCartTest {
         assertThat(shoppingCart.numberOf(RICE)).isEqualTo(5);
         assertThat(shoppingCart.numberOf(TOOTHBRUSH)).isEqualTo(1);
     }
+
+    @Test
+    public void should_have_grouping_of_items_with_count() throws Exception {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.add(RICE).times(5);
+        shoppingCart.addItem(TOOTHBRUSH);
+
+        assertThat(shoppingCart.getItemsWithCount().get(TOOTHBRUSH)).isEqualTo(1);
+        assertThat(shoppingCart.getItemsWithCount().get(RICE)).isEqualTo(5);
+
+    }
 }

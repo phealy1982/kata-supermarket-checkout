@@ -16,20 +16,28 @@ public class SupermarketCatalogTest {
 
     @Test public void should_be_able_to_add_a_product_with_its_price() throws Exception {
         SupermarketCatalog supermarketCatalog  = new SupermarketCatalog();
-        supermarketCatalog.addWithPrice(RICE, PRICE_OF_RICE);
+        supermarketCatalog.addWithPrice(RICE.barcode(), PRICE_OF_RICE);
 
-        assertThat(supermarketCatalog.priceFor(1, RICE)).isEqualTo(PRICE_OF_RICE);
+        assertThat(supermarketCatalog.priceFor(1, RICE.barcode())).isEqualTo(PRICE_OF_RICE);
     }
-
-
 
     @Test public void should_be_able_to_apply_special_offer() throws Exception {
         SupermarketCatalog supermarketCatalog  = new SupermarketCatalog();
-        supermarketCatalog.addWithPrice(RICE, PRICE_OF_RICE);
+        supermarketCatalog.addWithPrice(RICE.barcode(), PRICE_OF_RICE);
 
-        supermarketCatalog.addSpecialOffer(RICE, TWO_FOR_ONE);
+        supermarketCatalog.addSpecialOffer(RICE.barcode(), new TwoForOne());
 
-        assertThat(supermarketCatalog.specialOfferFor(RICE)).isEqualTo(TWO_FOR_ONE);
+        assertThat(supermarketCatalog.priceFor(2, RICE.barcode())).isEqualTo(PRICE_OF_RICE);
 
+    }
+
+    @Test
+    public void should_know_price_of_one_unit_when_item_is_on_special_offer() throws Exception {
+        SupermarketCatalog supermarketCatalog  = new SupermarketCatalog();
+        supermarketCatalog.addWithPrice(RICE.barcode(), PRICE_OF_RICE);
+
+        supermarketCatalog.addSpecialOffer(RICE.barcode(), new TwoForOne());
+
+        assertThat(supermarketCatalog.priceFor(1, RICE.barcode())).isEqualTo(PRICE_OF_RICE);
     }
 }

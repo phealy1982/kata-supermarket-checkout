@@ -5,57 +5,48 @@ import java.util.Map;
 
 public class SupermarketCatalog {
 
-    private static final Map<Barcode, Double> PRICES = new HashMap<>();
-    private static final Map<Product, SpecialOffer> OFFERS = new HashMap<>();
+    private final Map<Barcode, Double> prices = new HashMap<>();
+    private final Map<Barcode, TwoForOne> offers = new HashMap();
 
-    public Double priceFor(int quantity, Product product) {
-        return priceWithOffersApplied(quantity, product);
+    public Double priceFor(int quantity, Barcode barcode) {
+        return priceWithOffersApplied(quantity, barcode);
     }
 
-    private Double priceWithOffersApplied(int quantity, Product product) {
-        if (productOnSpecialOffer(product)) {
-            return applySpecialOffer(quantity, product);
+    private Double priceWithOffersApplied(int quantity, Barcode barcode) {
+        if (productOnSpecialOffer(barcode)) {
+            return applySpecialOffer(quantity, barcode);
         }
-        return priceFor(product) * quantity;
+        return priceFor(barcode) * quantity;
     }
 
-    private boolean productOnSpecialOffer(Product product) {
-        return OFFERS.containsKey(product);
+    private boolean productOnSpecialOffer(Barcode barcode) {
+        return offers.containsKey(barcode);
     }
 
-    private Double priceFor(Product product) {
-        return PRICES.get(product.barcode());
+    private Double priceFor(Barcode barcode) {
+        return prices.get(barcode);
     }
 
-    private Double applySpecialOffer(int quantity, Product product) {
-        SpecialOffer offer = OFFERS.get(product);
-        int quantityToPrice = quantity;
+    private Double applySpecialOffer(int quantity, Barcode barcode) {
+        Double priceForItem = priceFor(barcode);
+        Double totalPrice = priceForItem * quantity;
 
-        if (offer.equals(SpecialOffer.TWO_FOR_ONE)) {
-            quantityToPrice = applyTwoForOneSpecialOffer(quantity, quantityToPrice);
+        if(offers.containsKey(barcode)){
+            totalPrice = offers.get(barcode).apply(quantity, priceForItem);
         }
 
-        return priceFor(product) * quantityToPrice;
+        return totalPrice;
     }
 
-    private int applyTwoForOneSpecialOffer(int quantity, int quantityToPrice) {
-        if (quantity > 1 && quantity % 2 == 0) {
-            quantityToPrice = quantity / 2;
-        } else if (quantity > 1) {
-            quantityToPrice = (quantity / 2) + 1;
-        }
-        return quantityToPrice;
+    public void addWithPrice(Barcode barcode, Double price) {
+        prices.put(barcode, price);
     }
 
-    public void addWithPrice(Product product, Double price) {
-        PRICES.put(product.barcode(), price);
+    public void addSpecialOffer(Barcode barcode, TwoForOne offer) {
+        offers.put(barcode, offer);
     }
 
-    public void addSpecialOffer(Product product, SpecialOffer offer) {
-        OFFERS.put(product, offer);
-    }
-
-    public SpecialOffer specialOfferFor(Product product) {
-        return OFFERS.get(product);
+    public Double priceFor(LineItem item) {
+        return priceWithOffersApplied(item.quantity().intValue(), item.product().barcode());
     }
 }

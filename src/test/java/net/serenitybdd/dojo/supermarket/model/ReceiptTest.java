@@ -15,25 +15,22 @@ public class ReceiptTest {
     @Test public void should_be_able_add_item_to_receipt() throws Exception {
 
         Receipt receipt = new Receipt();
-
         Product riceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
+        ReceiptItem receiptItem = ReceiptItem.withText(riceProduct.name()).andQuantity(1).andWithPrice(PRICE_OF_RICE);
 
-        receipt.addItem(riceProduct, PRICE_OF_RICE);
+        receipt.add(receiptItem);
 
-        assertThat(receipt.items()).contains(riceProduct);
+        assertThat(receipt.items()).contains(receiptItem);
 
     }
 
     @Test public void should_know_total_price() throws Exception {
 
         Receipt receipt = new Receipt();
-
         Product riceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
+        ReceiptItem receiptItem = ReceiptItem.withText(riceProduct.name()).andQuantity(2).andWithPrice(PRICE_OF_RICE * 2);
 
-        Product anotherRiceProduct = Product.withName("1kg of Rice").andWithBarcode(new Barcode("123"));
-
-        receipt.addItem(riceProduct, PRICE_OF_RICE);
-        receipt.addItem(anotherRiceProduct, PRICE_OF_RICE);
+        receipt.add(receiptItem);
 
         assertThat(receipt.getTotalPrice()).isEqualTo(PRICE_OF_RICE * 2);
 

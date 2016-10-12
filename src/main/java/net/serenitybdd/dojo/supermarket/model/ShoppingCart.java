@@ -2,6 +2,9 @@ package net.serenitybdd.dojo.supermarket.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ShoppingCart {
 
@@ -26,9 +29,20 @@ public class ShoppingCart {
     public int numberOf(Product product) {
         int productCounter=0;
         for(Product item : items){
-            if(item.barcode().equals(product.barcode())) productCounter++;
+            if(item.barcode().equals(product.barcode())) {
+                productCounter++;
+            }
         }
         return productCounter;
+    }
+
+    public List<Product> getDistinctItems() {
+        return items.stream().distinct().collect(Collectors.toList());
+    }
+
+    public Map<Product, Long> getItemsWithCount() {
+       return items.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
     public class ShoppingCartAdder {

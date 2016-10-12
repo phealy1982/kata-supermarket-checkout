@@ -1,26 +1,24 @@
 package net.serenitybdd.dojo.supermarket.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Receipt {
-    private Map<Product, Double> items = new HashMap<>();
+    private List<ReceiptItem> items = new ArrayList<>();
 
     public Double getTotalPrice() {
-        Double totalPrice=0.00;
-        for(Double price : items.values()){
-            totalPrice += price;
-        }
-        return totalPrice;
+        return items.stream().mapToDouble(ReceiptItem::price).sum();
     }
 
-    public void addItem(Product product, Double price) {
-        items.put(product, price);
+    public void add(ReceiptItem receiptItem) {
+        items.add(receiptItem);
     }
 
-    public List<Product> items() {
-        return new ArrayList<>(items.keySet());
+    public List<ReceiptItem> items() {
+        return items;
+    }
+
+    public static Receipt withItemsFrom(ShoppingCart theCart) {
+        return new Receipt();
     }
 }

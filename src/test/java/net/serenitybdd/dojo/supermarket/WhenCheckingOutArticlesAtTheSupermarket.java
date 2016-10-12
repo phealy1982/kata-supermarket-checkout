@@ -58,10 +58,10 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
 
     }
 
-    @Test public void should_know_about_special_offers() throws Exception {
+    @Test public void should_know_about_two_for_one_special_offers() throws Exception {
         SupermarketCatalog supermarketCatalog = new SupermarketCatalog();
-        supermarketCatalog.addWithPrice(RICE, PRICE_OF_RICE);
-        supermarketCatalog.addSpecialOffer(RICE, TWO_FOR_ONE);
+        supermarketCatalog.addWithPrice(RICE.barcode(), PRICE_OF_RICE);
+        supermarketCatalog.addSpecialOffer(RICE.barcode(), new TwoForOne());
 
         Teller teller = new Teller(supermarketCatalog);
 
@@ -77,7 +77,7 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
         SupermarketCatalog catalog = new SupermarketCatalog();
 
         for(Product product : products){
-            catalog.addWithPrice(product, PRICES.get(product));
+            catalog.addWithPrice(product.barcode(), PRICES.get(product));
         }
         return  catalog;
     }
