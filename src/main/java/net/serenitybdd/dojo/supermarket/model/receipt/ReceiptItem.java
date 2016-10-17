@@ -1,4 +1,6 @@
-package net.serenitybdd.dojo.supermarket.model;
+package net.serenitybdd.dojo.supermarket.model.receipt;
+
+import net.serenitybdd.dojo.supermarket.model.LineItem;
 
 /**
  * Created by 66515 on 11/10/2016.
