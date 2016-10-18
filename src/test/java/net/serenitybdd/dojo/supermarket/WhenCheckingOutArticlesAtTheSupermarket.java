@@ -1,15 +1,16 @@
 package net.serenitybdd.dojo.supermarket;
 
 import net.serenitybdd.dojo.supermarket.model.*;
+import net.serenitybdd.dojo.supermarket.model.receipt.Receipt;
+import net.serenitybdd.dojo.supermarket.model.specialoffer.Discount10PerCent;
+import net.serenitybdd.dojo.supermarket.model.specialoffer.TwoForOne;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.serenitybdd.dojo.supermarket.model.SpecialOffer.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class WhenCheckingOutArticlesAtTheSupermarket {
 
@@ -17,6 +18,7 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
     private static final Product TOOTHBRUSH = Product.withName("toothbrush").andWithBarcode(new Barcode("456"));
     private static final Double PRICE_OF_TOOTHBRUSH = 1.33;
     private static final Double PRICE_OF_RICE = 1.23;
+    private static final Double PRICE_OF_RICE_MINUS_10_PERCENT = 1.11;
     private static final Map<Product, Double> PRICES = new HashMap<>();
 
     static {
@@ -36,7 +38,7 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
         Receipt receipt = teller.checksOutArticlesFrom(theCart);
 
         // THEN
-        assertThat(receipt.getTotalPrice(), equalTo(0.00));
+        assertThat(receipt.getTotalPrice()).isEqualTo(0.00);
 
     }
 
@@ -54,7 +56,7 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
         Receipt receipt = teller.checksOutArticlesFrom(theCart);
 
         // THEN
-        assertThat(receipt.getTotalPrice(), equalTo(PRICE_OF_TOOTHBRUSH * 2));
+        assertThat(receipt.getTotalPrice()).isEqualTo(PRICE_OF_TOOTHBRUSH * 2);
 
     }
 
@@ -70,7 +72,22 @@ public class WhenCheckingOutArticlesAtTheSupermarket {
 
         Receipt receipt = teller.checksOutArticlesFrom(theCart);
 
-        assertThat(receipt.getTotalPrice(), equalTo(PRICE_OF_RICE * 2));
+        assertThat(receipt.getTotalPrice()).isEqualTo(PRICE_OF_RICE * 2);
+    }
+
+    @Test public void should_know_about_ten_percent_discount() throws Exception {
+        SupermarketCatalog supermarketCatalog = new SupermarketCatalog();
+        supermarketCatalog.addWithPrice(RICE.barcode(), PRICE_OF_RICE);
+        supermarketCatalog.addSpecialOffer(RICE.barcode(), new Discount10PerCent());
+
+        Teller teller = new Teller(supermarketCatalog);
+
+        ShoppingCart theCart = new ShoppingCart();
+        theCart.addItem(RICE);
+
+        Receipt receipt = teller.checksOutArticlesFrom(theCart);
+
+        assertThat(receipt.getTotalPrice()).isEqualTo(PRICE_OF_RICE_MINUS_10_PERCENT);
     }
 
     private static SupermarketCatalog catalogWithProducts(Product ... products) {

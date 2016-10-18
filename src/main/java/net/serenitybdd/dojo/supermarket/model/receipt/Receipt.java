@@ -1,4 +1,4 @@
-package net.serenitybdd.dojo.supermarket.model;
+package net.serenitybdd.dojo.supermarket.model.receipt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,4 @@ public class Receipt {
         return items;
     }
 
-    public static Receipt withItemsFrom(ShoppingCart theCart) {
-        return new Receipt();
-    }
 }

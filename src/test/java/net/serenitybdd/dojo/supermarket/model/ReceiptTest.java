@@ -1,5 +1,7 @@
 package net.serenitybdd.dojo.supermarket.model;
 
+import net.serenitybdd.dojo.supermarket.model.receipt.Receipt;
+import net.serenitybdd.dojo.supermarket.model.receipt.ReceiptItem;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

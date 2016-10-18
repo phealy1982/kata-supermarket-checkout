@@ -1,7 +1,9 @@
 package net.serenitybdd.dojo.supermarket.model;
 
+import net.serenitybdd.dojo.supermarket.model.receipt.Receipt;
+import net.serenitybdd.dojo.supermarket.model.receipt.ReceiptItem;
+
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,7 @@ public class Teller {
     }
 
     public List<LineItem> aggregate(ShoppingCart cart) {
-        return cart.getItems().stream()
+        return cart.items().stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().map(LineItem::create).collect(Collectors.toList());
     }
 }

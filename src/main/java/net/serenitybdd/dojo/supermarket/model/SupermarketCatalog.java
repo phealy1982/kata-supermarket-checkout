@@ -1,52 +1,32 @@
 package net.serenitybdd.dojo.supermarket.model;
 
+import net.serenitybdd.dojo.supermarket.model.specialoffer.NullOffer;
+import net.serenitybdd.dojo.supermarket.model.specialoffer.SpecialOffer;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class SupermarketCatalog {
 
     private final Map<Barcode, Double> prices = new HashMap<>();
-    private final Map<Barcode, TwoForOne> offers = new HashMap();
+    private final Map<Barcode, SpecialOffer> offers = new HashMap();
 
-    public Double priceFor(int quantity, Barcode barcode) {
-        return priceWithOffersApplied(quantity, barcode);
-    }
-
-    private Double priceWithOffersApplied(int quantity, Barcode barcode) {
-        if (productOnSpecialOffer(barcode)) {
-            return applySpecialOffer(quantity, barcode);
-        }
-        return priceFor(barcode) * quantity;
-    }
-
-    private boolean productOnSpecialOffer(Barcode barcode) {
-        return offers.containsKey(barcode);
+    public Double priceFor(LineItem item) {
+        Barcode barcode = item.product().barcode();
+        Double priceForItem = priceFor(barcode);
+        return Optional.ofNullable(offers.get(barcode)).orElse(new NullOffer()).apply(item.quantity(), priceForItem);
     }
 
     private Double priceFor(Barcode barcode) {
         return prices.get(barcode);
     }
 
-    private Double applySpecialOffer(int quantity, Barcode barcode) {
-        Double priceForItem = priceFor(barcode);
-        Double totalPrice = priceForItem * quantity;
-
-        if(offers.containsKey(barcode)){
-            totalPrice = offers.get(barcode).apply(quantity, priceForItem);
-        }
-
-        return totalPrice;
-    }
-
     public void addWithPrice(Barcode barcode, Double price) {
         prices.put(barcode, price);
     }
 
-    public void addSpecialOffer(Barcode barcode, TwoForOne offer) {
+    public void addSpecialOffer(Barcode barcode, SpecialOffer offer) {
         offers.put(barcode, offer);
-    }
-
-    public Double priceFor(LineItem item) {
-        return priceWithOffersApplied(item.quantity().intValue(), item.product().barcode());
     }
 }

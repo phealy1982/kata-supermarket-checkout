@@ -10,7 +10,7 @@ public class ShoppingCart {
 
     private final List<Product> items = new ArrayList<>();
 
-    public List<Product> getItems() {
+    public List<Product> items() {
         return new ArrayList<>(items);
     }
 
@@ -20,29 +20,6 @@ public class ShoppingCart {
 
     public ShoppingCartAdder add(Product product) {
         return new ShoppingCartAdder(this, product);
-    }
-
-    public int numberOfItems() {
-        return items.size();
-    }
-
-    public int numberOf(Product product) {
-        int productCounter=0;
-        for(Product item : items){
-            if(item.barcode().equals(product.barcode())) {
-                productCounter++;
-            }
-        }
-        return productCounter;
-    }
-
-    public List<Product> getDistinctItems() {
-        return items.stream().distinct().collect(Collectors.toList());
-    }
-
-    public Map<Product, Long> getItemsWithCount() {
-       return items.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
     public class ShoppingCartAdder {
